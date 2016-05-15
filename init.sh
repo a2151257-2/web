@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/bin/sh -x
 
-sudo ln -sf /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/default
-sudo /etc/init.d/nginx restart
+sudo nginx -c $PWD/etc/nginx.conf
+gunicorn -c $PWD/etc/hello.py hello:app
+
+cd ask
+gunicorn -c $PWD/../etc/ask.py ask.wsgi
+
