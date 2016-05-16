@@ -18,3 +18,11 @@ class Answer(models.Model):
     question = models.ForeignKey(Question)
     author = models.ForeignKey(User)
     
+def get_questions(query):
+    if isinstance(query, int):
+        q = Question.objects.get(id=query)
+        return q.title, q.text, Answer.objects.filter(question = q)
+    if query in ("-added_at", "-rating"):
+        all_q = Question.objects.order_by(query)
+        return all_q
+    raise ValueError, query

@@ -18,13 +18,13 @@ from django.conf.urls import url, include
 from qa import views as qa_views
 
 urlpatterns = [
-    url(r'^$', qa_views.nf, name='home'),
-    url(r'^login/$', qa_views.nf, name='login'),
-    url(r'^signup/$', qa_views.nf, name='signup'),
-    url(r'^question/[^ /]+/$', qa_views.test, name='question'),
-    url(r'^ask/$', qa_views.nf, name='ask'),
-    url(r'^popular/$', qa_views.nf, name='popular'),
-    url(r'^new/$', qa_views.nf, name='new'),
+    url(r'^$', qa_views.home, name='home'),
+    url(r'^login/$', qa_views.test, name='login'),
+    url(r'^signup/$', qa_views.test, name='signup'),
+    url(r'^question/(?P<id>\d+)/$', qa_views.question, name='question'),
+    url(r'^ask/$', qa_views.test, name='ask'),
+    url(r'^popular/$', qa_views.popular, name='popular'),
+    url(r'^new/$', qa_views.test, name='new'),
     url(r'^admin/', admin.site.urls)
     #url(r'^', include('qa.urls'))
 ]

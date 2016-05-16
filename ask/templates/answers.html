@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+
+{{ title }} <br />
+{{ text }} <br />
+
+{% for answer in answers %}
+    {# Each "answer" is a Answer model object. #}
+    {{ answer.author }}<br />
+    {{ answer.text }}<br />
+{% endfor %}
