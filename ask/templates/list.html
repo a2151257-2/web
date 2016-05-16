@@ -3,7 +3,6 @@
 {% for question in questions %}
     {# Each "question" is a Question model object. #}
     <a href=/question/{{ question.id }}>{{ question.title }}</a><br />
-    ...
 {% endfor %}
 
 <div class="pagination">

@@ -8,3 +8,9 @@
     {{ answer.author }}<br />
     {{ answer.text }}<br />
 {% endfor %}
+
+<form action={{ url }} method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
