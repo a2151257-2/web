@@ -19,13 +19,13 @@ from qa import views as qa_views
 
 urlpatterns = [
     url(r'^$', qa_views.home, name='home'),
-    url(r'^login/$', qa_views.test, name='login'),
-    url(r'^signup/$', qa_views.test, name='signup'),
+    url(r'^login/$', qa_views.login, name='login'),
+    url(r'^signup/$', qa_views.signup, name='signup'),
     url(r'^question/(?P<id>\d+)/$', qa_views.question, name='question'),
     url(r'^ask/$', qa_views.ask, name='ask'),
     url(r'^answer/$', qa_views.answer, name='answer'),
     url(r'^popular/$', qa_views.popular, name='popular'),
-    url(r'^new/$', qa_views.test, name='new'),
+    url(r'^new/$', qa_views.home, name='new'),
     url(r'^admin/', admin.site.urls)
     #url(r'^', include('qa.urls'))
 ]

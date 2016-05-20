@@ -6,8 +6,9 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as django_login
 from models import Question, Answer, get_questions
-from forms import AskForm, AnswerForm
+from forms import AskForm, AnswerForm, SignupForm, LoginForm
 
 # Create your views here.
 
@@ -49,6 +50,7 @@ def ask(request, *args, **kwargs):
     elif request.method == "POST":
         form = AskForm(request.POST)
         if form.is_valid():
+            form.cleaned_data['author'] = request.user
             q = form.save()
             return HttpResponseRedirect(q.get_absolute_url())
     return render(request, "form.html", {'url':request.path, 'form':form})
@@ -57,9 +59,38 @@ def answer(request, *args, **kwargs):
     if request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
+            form.cleaned_data['author'] = request.user
             a = form.save()
             return HttpResponseRedirect(a.question.get_absolute_url())
         return render(request, "form.html", {'url':request.path, 'form':form})
+
+def login(request, *args, **kwargs):
+    if request.method == "GET":
+        form = LoginForm()
+    elif request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+            if user is not None:
+                django_login(request, user)
+                resp = HttpResponseRedirect(reverse('home'))
+                return resp
+    return render(request, "form.html", {'url':request.path, 'form':form})
+
+def signup(request, *args, **kwargs):
+    if request.method == "GET":
+        form = SignupForm()
+    elif request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            u = form.save()
+            user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+            assert user is not None
+            django_login(request, user)
+            resp = HttpResponseRedirect(reverse('home'))
+            return resp
+    return render(request, "form.html", {'url':request.path, 'form':form})
+
 
 def test(request, *args, **kwargs):
     return HttpResponse('OK')
